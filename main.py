@@ -95,7 +95,8 @@ def main():
 	print()
 	weather(town)
 	show_news(6)
-	os_info()
+	# os_info()
+	# уберите # если у вас *nix ос
 	print()
 	print("Я могу помогать тебе с компом, так что если что то нужно будет, пиши сюда")
 	while True:
