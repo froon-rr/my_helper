@@ -4,3 +4,7 @@
 Для установки вам потребуется python не ниже чем 3.9, и следующие:
 pip install datetime, requests, pyowm, bs4                                         
 https://www.python.org/downloads/
+
+
+# Использование
+Имя и город вводите латиницей
