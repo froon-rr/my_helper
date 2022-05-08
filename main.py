@@ -11,11 +11,11 @@ import json
 
 def show_news(t):
 	print(f'{t} новостей на сегодня:')
-	URL_TEMPLATE = "https://habr.com/ru/news/top/daily/"
+	URL_TEMPLATE = "https://habr.com/ru/news" # https://habr.com/ru/news/top/daily/
 	r = requests.get(URL_TEMPLATE)
 	html_doc = r.text
 	soup = bs(html_doc, 'html.parser')
-	
+
 	x = 0
 	for i in soup.find_all("a", class_="tm-article-snippet__title-link"):
 		x += 1
@@ -27,14 +27,14 @@ def show_news(t):
 		print()
 		if x == t:
 			break
-	
+
 
 def weather(c):
 	owm = OWM('48de1d399cdd9181e5832ed10dc1d75f')
 	mgr = owm.weather_manager()
 	observation = mgr.weather_at_place(c)
 	w = observation.weather
-	print(f"Погода сейчас {w.detailed_status},") 
+	print(f"Погода сейчас {w.detailed_status},")
 	print(f"темпиратура: {w.temperature('celsius')['temp']}")
 
 
@@ -44,27 +44,27 @@ def os_info():
 	MACHINE = os.uname().machine
 	HOST_NAME = os.uname().nodename
 	NOW_TIME = dt.now().strftime("%A %d-%B-%y %H:%M:%S")
-	
+
 	b = {
-    'OS': OS_NAME, 
-    'name': USERNAME, 
-    'machine': MACHINE, 
-    'host name':HOST_NAME, 
+    'OS': OS_NAME,
+    'name': USERNAME,
+    'machine': MACHINE,
+    'host name':HOST_NAME,
     'time': NOW_TIME
     }
-    
+
 	x = 0
-    
+
 	for bb in b.items():
 		print(f"\033[1;32;231m{bb[0]}\033[0;0m: {bb[1]}")
 		x += 1
 
 
-def main():
+def reg():
 	json_fil = open('names.json', 'r', encoding='utf-8')
 	str_json = json_fil.read()
 	data = json.loads(str_json)
-	print(data)
+	# print(data)
 	if not data['name']:
 		data['name'] = input('Как я могу к тебе обращаться? ')
 	uname = data['name']
@@ -76,7 +76,28 @@ def main():
 	json_fil2 = open('names.json', 'w', encoding='utf-8')
 	json.dump(data, json_fil2)
 	json_fil2.close()
-	
+	return (uname, town)
+
+
+def clear_data():
+	json_fil = open('names.json', 'r', encoding='utf-8')
+	str_json = json_fil.read()
+	data = json.loads(str_json)
+	# print(data)
+	print(data)
+	data['name'] = None
+	data['city'] = None
+	print(data)
+	json_fil.close()
+	json_fil2 = open('names.json', 'w', encoding='utf-8')
+	json.dump(data, json_fil2)
+	json_fil2.close()
+
+
+def main():
+	uname, town = reg()
+
+	# ---------------------------------------
 	#fil = open('username.txt', 'a+', encoding='utf-8')
 	#fil.seek(0)
 	#if fil.readline() == '':
@@ -89,13 +110,14 @@ def main():
 	#fil.seek(1)
 	#your_city = fil.readline()
 	#fil.close()
-	
+	# ---------------------------------------------
+
 	print(f"Привет, {uname}")
 	print('Точное время:', dt.now().strftime("%A %d-%B-%y %H:%M:%S"))
 	print()
 	weather(town)
 	show_news(6)
-	# os_info() уберите # если у вас *nix ос
+	os_info()
 	print()
 	print("Я могу помогать тебе с компом, так что если что то нужно будет, пиши сюда")
 	while True:
@@ -113,7 +135,16 @@ def main():
 			weather(town)
 		elif inn == 'myinfo' or inn == 'Я':
 			print(f'Тебя зовут {uname}', f'Ты живешь в {town}', sep='\n')
-			
+		elif inn == 'clear my data' or inn == 'relog':
+			inn = input('вы хотите удолить свои данные и зарегестрироваться снова? (y/N)')
+			if inn.lower() == 'y' or inn.lower() == 'yes':
+				clear_data()
+				uname, town = reg()
+			elif inn.lower() == 'n' or inn.lower() == 'no':
+				pass
+			elif inn == 'asd':
+				clear_data()
+
 
 if __name__ == '__main__':
 	main()
