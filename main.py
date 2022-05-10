@@ -94,6 +94,13 @@ def clear_data():
 	json_fil2.close()
 
 
+def your_info():
+	print('Привет, меня зовут neko-alice-chan')
+	print('Я могу помогать тебе с компом, а так же могу тебя потдержать')
+	print('Для потдержки просто напиши "Потдержи меня"')
+	print('ня')
+
+
 def main():
 	uname, town = reg()
 
@@ -119,7 +126,7 @@ def main():
 	show_news(6)
 	os_info()
 	print()
-	print("Я могу помогать тебе с компом, так что если что то нужно будет, пиши сюда")
+	print("Я могу помогать тебе с компом, так что, если что-то нужно будет, пиши сюда")
 	while True:
 		inn = input('> ')
 		if inn == 'пока' or inn == 'exit':
@@ -136,7 +143,7 @@ def main():
 		elif inn == 'myinfo' or inn == 'Я':
 			print(f'Тебя зовут {uname}', f'Ты живешь в {town}', sep='\n')
 		elif inn == 'clear my data' or inn == 'relog':
-			inn = input('вы хотите удолить свои данные и зарегестрироваться снова? (y/N)')
+			inn = input('вы хотите удалить свои данные и зарегестрироваться снова? (y/N)')
 			if inn.lower() == 'y' or inn.lower() == 'yes':
 				clear_data()
 				uname, town = reg()
@@ -144,7 +151,11 @@ def main():
 				pass
 			elif inn == 'asd':
 				clear_data()
-
+		elif inn == 'Кто ты' or inn == 'Your info':
+			your_info()
+		elif inn == 'Потдержи меня' or inn == "I'm sed":
+			print('Я с тобой')
+			print('Ня')
 
 if __name__ == '__main__':
 	main()
